@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="ISO-8859-1">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta name="description" content="Recipe collection application">
+		<meta name="author" content="Shreeprabha Aggarwal">
+		<link rel="shortcut icon" href="favicon.ico">
+
+		<title>RecipeNet</title>
+
+		<link href="css/bootstrap.css" rel="stylesheet">
+		<link href="css/layout.css" rel="stylesheet">
+		<link href="css/font-awesome.css" rel="stylesheet">
+
+		<!--[if IE 7]>
+		<link rel="stylesheet" href="css/font-awesome-ie7.min.css">
+		<![endif]-->
+
+		<script type="text/javascript" src="js/jquery-1.9.1.js"></script>
+		<script type="text/javascript" src="js/jquery-ui-1.10.3.custom.js"></script>
+
+		<script type="text/javascript">
+			$(document).ready(function() {
+
+				$('.jumbotron').children().each(function() {
+
+					$(this).fadeOut(0);
+					$(this).css("position", 'absolute');
+
+				});
+
+				$('#home').fadeIn(1000);
+				$('#home').css("position", 'static');
+
+				$(".clear a").click(function() {
+					var x = $(this).attr("href");
+					$('.jumbotron').children().each(function() {
+						$(this).fadeOut(0);
+						$(this).css("position", 'absolute');
+					});
+
+					$(x).fadeIn(1000);
+					$(x).css("visibility", 'visible');
+					$(x).css("position", 'static');
+
+				});
+
+				$(".op > *").hide();
+
+				function updateLinks(link, links) {
+
+					var block = link.attr("data-block");
+					$("a[data-block!='" + block + "']").parent().removeClass("active");
+					$("a[data-block='" + block + "']").parent().addClass("active");
+
+					$(".op > *").hide();
+					$("#" + block).show();
+				}
+
+				var links = $("a[data-block]");
+				if (window.location.hash != "") {
+					var link = $("a[href='" + window.location.hash + "']");
+					if (link.length > 0) {
+						updateLinks(link, links);
+					}
+				}
+
+				links.click(function() {
+					var divId = $(this).attr("href");
+					var state = {
+						prevhash : divId
+					};
+					if (window.history.pushState) {
+						window.history.pushState(state, $(this).html(), divId);
+					}
+
+					updateLinks($(this), links);
+					return false;
+				});
+
+				if (window.history.pushState) {
+					window.onpopstate = function(e) {
+						if (e.state) {
+							var link = $("a[href='" + window.location.hash + "']");
+							updateLinks(link, links);
+						} else {
+							$(".op > *").hide();
+							$("a[data-block]").parent().removeClass("active");
+							$("#target").show();
+
+						}
+					};
+				}
+
+			});
+		</script>
+	</head>
+	<body>
+		<!-- container : main body code -->
+		<div class="container">
+			<div class="jumbotron">
+				<div id="home" class="row">
+					<span class="title"><span class="fa-stack"> <i class="fa fa-square-o fa-stack-2x"></i> <i class="fa fa-list fa-stack-1x"></i> </span> Project Brief</span>
+
+					<p>
+						<span class="fa-stack"> <i class="fa fa-square-o fa-stack-2x"></i> <i class="fa fa-user fa-stack-1x"></i> </span>Developer's name: Shreeprabha Aggarwal(sa10g10)
+						<br />
+						<span class="fa-stack"> <i class="fa fa-square-o fa-stack-2x"></i> <i class="fa fa-home fa-stack-1x"></i> </span>Website Title: RecipeNet
+					</p>
+					<div class="span3">
+						<div class="well sidebar-nav">
+							<ul class="nav nav-list">
+								<li class="nav-header">
+									Description
+								</li>
+								<li>
+									<a href="#target" data-block="target"><span class="fa-stack"> <i class="fa fa-square-o fa-stack-2x"></i> <i class="fa fa-gbp fa-stack-1x"></i> </span>Target Enterprise &amp; Rationale</a>
+								</li>
+								<li>
+									<a href="#stories" data-block="stories"><span class="fa-stack"> <i class="fa fa-square-o fa-stack-2x"></i> <i class="fa fa-users fa-stack-1x"></i> </span>
+					User Stories</a>
+								</li>
+								<li>
+									<a href="#er" data-block="er">ER Diagram</a>
+								</li>
+								<li>
+									<a href="#sitemap" data-block="sitemap"><span class="fa-stack"> <i class="fa fa-square-o fa-stack-2x"></i> <i class="fa fa-sitemap fa-stack-1x"></i> </span>
+					Site Map</a>
+								</li>
+								<li>
+									<a href="#gantt" data-block="gantt">Implementation Schedule</a>
+								</li>
+							</ul>
+						</div>
+					</div>
+
+					<div class="op span3">
+						<div id="target" class="sidebar-container">
+							<h4>Target Enterprise is Food Industry.</h4>
+						</div>
+						<div id="stories">
+							<h2>User stories go here</h2>
+						</div>
+						<div id="er">
+							<h2>Er diagram goes here</h2>
+						</div>
+						<div id="sitemap">
+							<h2>Sitemap goes here</h2>
+						</div>
+						<div id="gantt">
+							<h2>Er diagram goes here</h2>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- /container -->
+
+		<!-- footer -->
+		<footer class="footer">
+			<div class="container">
+				<p>
+					&copy; 2013 <a
+					href="https://www.facebook.com/shreeprabha.aries">Shreeprabha Aggarwal</a>
+				</p>
+				<p>
+					Template derived from <a
+					href="https://github.com/Shreeprabha/TwitterBootstrapTemplate">TwitterBootstrapTemplate</a>
+					designed and built by <a
+					href="https://www.facebook.com/shreeprabha.aries">Shreeprabha
+					Aggarwal</a>
+				</p>
+				<p>
+					Code licensed under <a
+					href="http://www.apache.org/licenses/LICENSE-2.0">Apache
+					License v2.0</a>, GitHub source <a
+					href="https://github.com/Shreeprabha/RecipeNet">RecipeNet on Git</a>
+				</p>
+			</div>
+		</footer>
+		<!-- /footer -->
+
+		<!-- Bootstrap core JavaScript -->
+		<!-- Placed at the end of the document so the pages load faster -->
+		<link href="css/font-awesome.min.css" />
+		<script src="js/jquery-1.9.1.min.js"></script>
+		<script src="js/bootstrap.min.js"></script>
+
+	</body>
+</html>
